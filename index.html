@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -20,8 +21,8 @@ body{
   height:100vh;
   max-width:500px;
   margin:auto;
-  position:relative;
   background:#000;
+  position:relative;
 }
 
 .reels{
@@ -76,10 +77,10 @@ body{
 
 .info{
   position:absolute;
-  bottom:80px;
+  bottom:85px;
   left:15px;
   right:80px;
-  z-index:4;
+  z-index:5;
   text-shadow:0 2px 5px #000;
 }
 
@@ -112,6 +113,10 @@ body{
 .count{
   font-size:12px;
   margin-top:2px;
+}
+
+.liked{
+  color:#ff1744;
 }
 
 .bottom{
@@ -157,11 +162,15 @@ body{
 
 <div class="reels" id="reels">
 
+<!-- REEL 1 -->
 <div class="reel">
 
 <video
 src="https://cdn.coverr.co/videos/coverr-a-woman-dancing-1574/1080p.mp4"
-autoplay muted loop playsinline>
+autoplay
+muted
+loop
+playsinline>
 </video>
 
 <div class="top">
@@ -187,21 +196,27 @@ autoplay muted loop playsinline>
 </div>
 
 <div class="action" onclick="shareReel()">
-↗️
+📤
 <div class="count">Share</div>
 </div>
 
-<div class="action">⋮</div>
+<div class="action">
+⋮
+</div>
 
 </div>
 </div>
 
 
+<!-- REEL 2 -->
 <div class="reel">
 
 <video
 src="https://cdn.coverr.co/videos/coverr-a-man-riding-a-bike-1573/1080p.mp4"
-autoplay muted loop playsinline>
+autoplay
+muted
+loop
+playsinline>
 </video>
 
 <div class="top">
@@ -227,11 +242,13 @@ autoplay muted loop playsinline>
 </div>
 
 <div class="action" onclick="shareReel()">
-↗️
+📤
 <div class="count">Share</div>
 </div>
 
-<div class="action">⋮</div>
+<div class="action">
+⋮
+</div>
 
 </div>
 </div>
@@ -239,6 +256,7 @@ autoplay muted loop playsinline>
 </div>
 
 
+<!-- BOTTOM MENU -->
 <div class="bottom">
 
 <button>⌂</button>
@@ -268,22 +286,18 @@ onchange="addVideo(event)">
 function like(el){
 
 let count=el.querySelector(".count");
-let n=parseInt(count.innerText);
+let n=parseInt(count.innerText)||0;
 
 if(el.classList.contains("liked")){
 
 n--;
-
-el.innerHTML='❤️<div class="count">'+n+'</div>';
-
+count.innerText=n;
 el.classList.remove("liked");
 
 }else{
 
 n++;
-
-el.innerHTML='💖<div class="count">'+n+'</div>';
-
+count.innerText=n;
 el.classList.add("liked");
 
 }
@@ -297,12 +311,12 @@ if(navigator.share){
 
 navigator.share({
 title:"NJ Reels 72",
-text:"NJ Reels 72 par ye reel dekho!"
+text:"NJ Reels 72 par reel dekho!"
 });
 
 }else{
 
-alert("Share option available nahi hai.");
+alert("Share option available nahi hai");
 
 }
 
@@ -315,6 +329,59 @@ const file=event.target.files[0];
 
 if(!file)return;
 
-const url=
-  update index.html
-  
+const url=URL.createObjectURL(file);
+
+const reel=document.createElement("div");
+
+reel.className="reel";
+
+reel.innerHTML=`
+
+<video
+src="${url}"
+autoplay
+muted
+loop
+playsinline>
+</video>
+
+<div class="top">
+<div class="logo">NJ <span>Reels</span></div>
+<div class="follow">Follow</div>
+</div>
+
+<div class="info">
+<div class="username">@nawab_jani72</div>
+<div class="caption">🎬 New Reel</div>
+</div>
+
+<div class="actions">
+
+<div class="action" onclick="like(this)">
+❤️
+<div class="count">0</div>
+</div>
+
+<div class="action">
+💬
+<div class="count">0</div>
+</div>
+
+<div class="action" onclick="shareReel()">
+📤
+<div class="count">Share</div>
+</div>
+
+<div class="action">⋮</div>
+
+</div>
+`;
+
+document.getElementById("reels").appendChild(reel);
+
+}
+
+</script>
+
+</body>
+</html>
