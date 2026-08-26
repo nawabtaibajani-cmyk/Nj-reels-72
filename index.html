@@ -1,120 +1,173 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NJ Reels 72</title>
 
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;
- background:#000;
- color:#fff;
- font-family:Arial,sans-serif;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
-.app{
- max-width:500px;
- height:100vh;
- margin:auto;
- background:#111;
- overflow:hidden;
- position:relative;
-}
-.header{
- height:55px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 15px;
- background:#111;
- position:absolute;
- top:0;
- width:100%;
- z-index:5;
-}
-.logo{
- font-size:22px;
- font-weight:bold;
-}
-.logo span{color:#ff1744}
-.feed{
- height:100vh;
- overflow-y:auto;
- scroll-snap-type:y mandatory;
-}
-.reel{
- height:100vh;
- scroll-snap-align:start;
- position:relative;
- background:#222;
- display:flex;
- align-items:center;
- justify-content:center;
-}
-.reel video{
- width:100%;
- height:100%;
- object-fit:cover;
-}
-.demo{
- text-align:center;
- font-size:20px;
- padding:30px;
-}
-.actions{
- position:absolute;
- right:12px;
- bottom:100px;
- display:flex;
- flex-direction:column;
- gap:18px;
- text-align:center;
- z-index:3;
-}
-.action{
- font-size:27px;
- cursor:pointer;
-}
-.action small{
- display:block;
- font-size:12px;
- margin-top:3px;
-}
-.caption{
- position:absolute;
- left:15px;
- bottom:90px;
- width:70%;
- z-index:3;
-}
-.user{
- font-weight:bold;
- font-size:17px;
- margin-bottom:8px;
-}
-.bottom{
- position:absolute;
- bottom:0;
- width:100%;
- height:60px;
- background:#111;
- display:flex;
- justify-content:space-around;
- align-items:center;
- z-index:6;
-}
-.bottom button{
- background:none;
- border:0;
- color:white;
- font-size:14px;
-}
-.upload{
- color:#ff1744!important;
- font-weight:bold;
-}
-input{display:none}
-</style>
-</
 
+body{
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+.app{
+  max-width:500px;
+  height:100vh;
+  margin:auto;
+  background:#111;
+  overflow:hidden;
+  position:relative;
+}
+
+.reels{
+  height:100vh;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+}
+
+.reel{
+  height:100vh;
+  position:relative;
+  scroll-snap-align:start;
+  background:linear-gradient(135deg,#111,#333);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.reel video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.demo{
+  font-size:70px;
+  font-weight:bold;
+  color:#ff1744;
+}
+
+.top{
+  position:fixed;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:500px;
+  height:60px;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  background:linear-gradient(#000aa,#0000);
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+
+.upload{
+  background:#ff1744;
+  border:0;
+  color:white;
+  padding:9px 14px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.info{
+  position:absolute;
+  left:15px;
+  bottom:35px;
+  z-index:5;
+}
+
+.username{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.caption{
+  font-size:14px;
+}
+
+.actions{
+  position:absolute;
+  right:12px;
+  bottom:35px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  z-index:5;
+}
+
+.action{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:0;
+  background:#ffffff22;
+  color:white;
+  font-size:23px;
+}
+
+.bottom{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:500px;
+  height:60px;
+  background:#000d;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:20;
+}
+
+.bottom button{
+  background:none;
+  border:0;
+  color:white;
+  font-size:13px;
+}
+
+#fileInput{
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="top">
+    <div class="logo">NJ Reels 72</div>
+
+    <label class="upload">
+      + Upload
+      <input id="fileInput" type="file" accept="video/*">
+    </label>
+  </div>
+
+  <div class="reels" id="reels">
+
+    <div class="reel">
+      <div class="demo">NJ</div>
+
+      <div class="info">
+        <div class="username">@nj_reels72</div>
+        <div class="caption">Welcome to NJ Reels
