@@ -91,5 +91,278 @@ body{
   </div>
 
 </div>
+</body><!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NJ Reels 72</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#000;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+.app{
+  width:100%;
+  max-width:500px;
+  height:100vh;
+  margin:auto;
+  background:#111;
+  position:relative;
+  overflow:hidden;
+}
+
+.header{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index:10;
+  padding:20px;
+  font-size:25px;
+  font-weight:bold;
+  background:linear-gradient(#000b,transparent);
+}
+
+.reel{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#4b1028,#e60055,#210018);
+  font-size:35px;
+  font-weight:bold;
+}
+
+.reelText{
+  text-align:center;
+}
+
+.right{
+  position:absolute;
+  right:15px;
+  bottom:120px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  text-align:center;
+  z-index:5;
+}
+
+.btn{
+  background:none;
+  border:0;
+  color:white;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.btn span{
+  display:block;
+  font-size:13px;
+  margin-top:3px;
+}
+
+.bottom{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:#000e;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:10;
+}
+
+.bottom button{
+  background:none;
+  border:0;
+  color:white;
+  font-size:22px;
+}
+
+.bottom small{
+  display:block;
+  font-size:11px;
+}
+
+.create{
+  position:absolute;
+  bottom:80px;
+  left:20px;
+  z-index:10;
+}
+
+.create input{
+  display:none;
+}
+
+.create label{
+  background:#fff;
+  color:#000;
+  padding:12px 18px;
+  border-radius:25px;
+  font-weight:bold;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    NJ ✦ Reels 72
+  </div>
+
+  <div class="reel">
+    <div class="reelText">
+      NJ REELS
+      <div style="font-size:15px;margin-top:10px;">
+        Apni short video duniya
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+
+    <button class="btn" onclick="like()">
+      ❤️
+      <span id="likeText">Like</span>
+    </button>
+
+    <button class="btn" onclick="comment()">
+      💬
+      <span>Comment</span>
+    </button>
+
+    <button class="btn" onclick="share()">
+      ↗️
+      <span>Share</span>
+    </button>
+
+    <button class="btn" onclick="save()">
+      🔖
+      <span>Save</span>
+    </button>
+
+  </div>
+
+  <div class="create">
+    <label for="video">＋ Create Reel</label>
+    <input id="video" type="file" accept="video/*"
+           onchange="uploadVideo(this)">
+  </div>
+
+  <div class="bottom">
+
+    <button onclick="home()">
+      🏠
+      <small>Home</small>
+    </button>
+
+    <button onclick="search()">
+      🔍
+      <small>Search</small>
+    </button>
+
+    <button onclick="document.getElementById('video').click()">
+      ➕
+      <small>Create</small>
+    </button>
+
+    <button onclick="activity()">
+      ❤️
+      <small>Activity</small>
+    </button>
+
+    <button onclick="profile()">
+      👤
+      <small>Profile</small>
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+let liked=false;
+let saved=false;
+
+function like(){
+  liked=!liked;
+
+  if(liked){
+    document.getElementById("likeText").innerText="Liked ❤️";
+  }else{
+    document.getElementById("likeText").innerText="Like";
+  }
+}
+
+function comment(){
+  let text=prompt("Apna comment likho:");
+
+  if(text){
+    alert("Comment added: "+text);
+  }
+}
+
+function share(){
+  if(navigator.share){
+    navigator.share({
+      title:"NJ Reels 72",
+      text:"NJ Reels par ye reel dekho!"
+    });
+  }else{
+    alert("Reel share karne ke liye browser share option use karo.");
+  }
+}
+
+function save(){
+  saved=!saved;
+
+  if(saved){
+    alert("Reel Saved 🔖");
+  }else{
+    alert("Reel unsaved");
+  }
+}
+
+function uploadVideo(input){
+
+  if(input.files && input.files[0]){
+    alert("Video select ho gayi! 🎬\nNext step me ise NJ Reels feed me dikhayenge.");
+  }
+}
+
+function home(){
+  alert("Home");
+}
+
+function search(){
+  alert("Search");
+}
+
+function activity(){
+  alert("Activity");
+}
+
+function profile(){
+  alert("Profile");
+}
+
+</script>
+
 </body>
-</html>
+  </html>
+
