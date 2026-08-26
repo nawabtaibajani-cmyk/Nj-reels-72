@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -7,7 +6,11 @@
 <title>NJ Reels 72</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   background:#000;
@@ -18,8 +21,8 @@ body{
 
 .app{
   width:100%;
-  height:100vh;
   max-width:500px;
+  height:100vh;
   margin:auto;
   background:#000;
   position:relative;
@@ -28,7 +31,7 @@ body{
 .reels{
   width:100%;
   height:100vh;
-  overflow-y:scroll;
+  overflow-y:auto;
   scroll-snap-type:y mandatory;
 }
 
@@ -44,6 +47,7 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
+  background:#111;
 }
 
 .top{
@@ -79,19 +83,20 @@ body{
   position:absolute;
   bottom:85px;
   left:15px;
-  right:80px;
+  right:75px;
   z-index:5;
   text-shadow:0 2px 5px #000;
 }
 
 .username{
-  font-size:18px;
   font-weight:bold;
+  font-size:18px;
   margin-bottom:8px;
 }
 
 .caption{
   font-size:15px;
+  line-height:1.4;
 }
 
 .actions{
@@ -100,14 +105,15 @@ body{
   bottom:90px;
   display:flex;
   flex-direction:column;
-  gap:20px;
-  z-index:5;
+  gap:18px;
+  z-index:6;
   text-align:center;
 }
 
 .action{
   font-size:30px;
   cursor:pointer;
+  user-select:none;
 }
 
 .count{
@@ -116,42 +122,50 @@ body{
 }
 
 .liked{
-  color:#ff1744;
+  transform:scale(1.15);
 }
 
 .bottom{
   position:absolute;
-  bottom:0;
   left:0;
   right:0;
-  height:62px;
+  bottom:0;
+  height:65px;
   background:#000;
   display:flex;
   justify-content:space-around;
   align-items:center;
-  z-index:10;
+  z-index:20;
 }
 
 .bottom button{
   background:none;
   border:0;
   color:#fff;
-  font-size:24px;
+  font-size:25px;
 }
 
 .add{
   width:45px;
   height:38px;
   border-radius:10px;
-  background:#fff;
-  color:#000;
-  font-size:25px;
-  text-align:center;
-  line-height:38px;
+  background:#fff !important;
+  color:#000 !important;
+  font-size:25px !important;
 }
 
 .upload{
   display:none;
+}
+
+.empty{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:30px;
+  color:#aaa;
 }
 </style>
 </head>
@@ -160,123 +174,123 @@ body{
 
 <div class="app">
 
-<div class="reels" id="reels">
+  <div class="reels" id="reels">
 
-<!-- REEL 1 -->
-<div class="reel">
+    <!-- REEL 1 -->
+    <div class="reel">
 
-<video
-src="https://cdn.coverr.co/videos/coverr-a-woman-dancing-1574/1080p.mp4"
-autoplay
-muted
-loop
-playsinline>
-</video>
+      <video
+        src="https://cdn.coverr.co/videos/coverr-a-woman-dancing-1574/1080p.mp4"
+        autoplay
+        muted
+        loop
+        playsinline>
+      </video>
 
-<div class="top">
-<div class="logo">NJ <span>Reels</span></div>
-<div class="follow">Follow</div>
-</div>
+      <div class="top">
+        <div class="logo">NJ <span>Reels</span></div>
+        <div class="follow">Follow</div>
+      </div>
 
-<div class="info">
-<div class="username">@nawab_jani72</div>
-<div class="caption">🔥 Welcome to NJ Reels 72</div>
-</div>
+      <div class="info">
+        <div class="username">@nawab_jani72</div>
+        <div class="caption">❤️ Welcome to NJ Reels 72 — Short Videos</div>
+      </div>
 
-<div class="actions">
+      <div class="actions">
 
-<div class="action" onclick="like(this)">
-❤️
-<div class="count">0</div>
-</div>
+        <div class="action" onclick="like(this)">
+          ❤️
+          <div class="count">0</div>
+        </div>
 
-<div class="action">
-💬
-<div class="count">0</div>
-</div>
+        <div class="action">
+          💬
+          <div class="count">0</div>
+        </div>
 
-<div class="action" onclick="shareReel()">
-📤
-<div class="count">Share</div>
-</div>
+        <div class="action" onclick="shareReel()">
+          📤
+          <div class="count">Share</div>
+        </div>
 
-<div class="action">
-⋮
-</div>
+        <div class="action">
+          ⋮
+        </div>
 
-</div>
-</div>
-
-
-<!-- REEL 2 -->
-<div class="reel">
-
-<video
-src="https://cdn.coverr.co/videos/coverr-a-man-riding-a-bike-1573/1080p.mp4"
-autoplay
-muted
-loop
-playsinline>
-</video>
-
-<div class="top">
-<div class="logo">NJ <span>Reels</span></div>
-<div class="follow">Follow</div>
-</div>
-
-<div class="info">
-<div class="username">@nj_reels_72</div>
-<div class="caption">❤️ NJ Reels 72 — Short Videos</div>
-</div>
-
-<div class="actions">
-
-<div class="action" onclick="like(this)">
-❤️
-<div class="count">0</div>
-</div>
-
-<div class="action">
-💬
-<div class="count">0</div>
-</div>
-
-<div class="action" onclick="shareReel()">
-📤
-<div class="count">Share</div>
-</div>
-
-<div class="action">
-⋮
-</div>
-
-</div>
-</div>
-
-</div>
+      </div>
+    </div>
 
 
-<!-- BOTTOM MENU -->
-<div class="bottom">
+    <!-- REEL 2 -->
+    <div class="reel">
 
-<button>⌂</button>
+      <video
+        src="https://cdn.coverr.co/videos/coverr-a-man-riding-a-bike-1573/1080p.mp4"
+        autoplay
+        muted
+        loop
+        playsinline>
+      </video>
 
-<button>🔍</button>
+      <div class="top">
+        <div class="logo">NJ <span>Reels</span></div>
+        <div class="follow">Follow</div>
+      </div>
 
-<label class="add">
-+
-<input
-class="upload"
-type="file"
-accept="video/*"
-onchange="addVideo(event)">
-</label>
+      <div class="info">
+        <div class="username">@nj_reels_72</div>
+        <div class="caption">🔥 NJ Reels 72 — Short Videos</div>
+      </div>
 
-<button>❤️</button>
+      <div class="actions">
 
-<button>👤</button>
+        <div class="action" onclick="like(this)">
+          ❤️
+          <div class="count">0</div>
+        </div>
 
-</div>
+        <div class="action">
+          💬
+          <div class="count">0</div>
+        </div>
+
+        <div class="action" onclick="shareReel()">
+          📤
+          <div class="count">Share</div>
+        </div>
+
+        <div class="action">
+          ⋮
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- BOTTOM MENU -->
+  <div class="bottom">
+
+    <button onclick="home()">⌂</button>
+
+    <button onclick="search()">🔍</button>
+
+    <label class="add">
+      +
+      <input
+        class="upload"
+        type="file"
+        accept="video/*"
+        onchange="addVideo(event)">
+    </label>
+
+    <button onclick="showMessage()">❤️</button>
+
+    <button onclick="showMessage()">👤</button>
+
+  </div>
 
 </div>
 
@@ -285,101 +299,168 @@ onchange="addVideo(event)">
 
 function like(el){
 
-let count=el.querySelector(".count");
-let n=parseInt(count.innerText)||0;
+  let count = el.querySelector(".count");
+  let number = parseInt(count.innerText) || 0;
 
-if(el.classList.contains("liked")){
+  if(el.classList.contains("liked")){
 
-n--;
-count.innerText=n;
-el.classList.remove("liked");
+    number--;
 
-}else{
+    el.classList.remove("liked");
 
-n++;
-count.innerText=n;
-el.classList.add("liked");
+  }else{
 
-}
+    number++;
+
+    el.classList.add("liked");
+
+  }
+
+  count.innerText = number;
 
 }
 
 
 function shareReel(){
 
-if(navigator.share){
+  if(navigator.share){
 
-navigator.share({
-title:"NJ Reels 72",
-text:"NJ Reels 72 par reel dekho!"
-});
+    navigator.share({
+      title:"NJ Reels 72",
+      text:"NJ Reels 72 par reel dekho!"
+    });
 
-}else{
+  }else{
 
-alert("Share option available nahi hai");
+    alert("Share option is device/browser mein available nahi hai.");
 
-}
+  }
 
 }
 
 
 function addVideo(event){
 
-const file=event.target.files[0];
+  const file = event.target.files[0];
 
-if(!file)return;
+  if(!file) return;
 
-const url=URL.createObjectURL(file);
+  const url = URL.createObjectURL(file);
 
-const reel=document.createElement("div");
+  const reel = document.createElement("div");
 
-reel.className="reel";
+  reel.className = "reel";
 
-reel.innerHTML=`
+  reel.innerHTML = `
 
-<video
-src="${url}"
-autoplay
-muted
-loop
-playsinline>
-</video>
+    <video
+      src="${url}"
+      autoplay
+      muted
+      loop
+      playsinline>
+    </video>
 
-<div class="top">
-<div class="logo">NJ <span>Reels</span></div>
-<div class="follow">Follow</div>
-</div>
+    <div class="top">
+      <div class="logo">NJ <span>Reels</span></div>
+      <div class="follow">Follow</div>
+    </div>
 
-<div class="info">
-<div class="username">@nawab_jani72</div>
-<div class="caption">🎬 New Reel</div>
-</div>
+    <div class="info">
+      <div class="username">@nawab_jani72</div>
+      <div class="caption">🎬 My New Reel</div>
+    </div>
 
-<div class="actions">
+    <div class="actions">
 
-<div class="action" onclick="like(this)">
-❤️
-<div class="count">0</div>
-</div>
+      <div class="action" onclick="like(this)">
+        ❤️
+        <div class="count">0</div>
+      </div>
 
-<div class="action">
-💬
-<div class="count">0</div>
-</div>
+      <div class="action">
+        💬
+        <div class="count">0</div>
+      </div>
 
-<div class="action" onclick="shareReel()">
-📤
-<div class="count">Share</div>
-</div>
+      <div class="action" onclick="shareReel()">
+        📤
+        <div class="count">Share</div>
+      </div>
 
-<div class="action">⋮</div>
+      <div class="action">
+        ⋮
+      </div>
 
-</div>
-`;
+    </div>
+  `;
 
-document.getElementById("reels").appendChild(reel);
+  document.getElementById("reels").appendChild(reel);
+
+  reel.scrollIntoView({
+    behavior:"smooth"
+  });
 
 }
+
+
+function home(){
+
+  document.getElementById("reels").scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function search(){
+
+  alert("🔍 Search feature jaldi add karenge.");
+
+}
+
+
+function showMessage(){
+
+  alert("❤️ Feature jaldi add karenge.");
+
+}
+
+
+/* VIDEO AUTO PLAY / PAUSE */
+
+const observer = new IntersectionObserver(
+  entries => {
+
+    entries.forEach(entry => {
+
+      const video = entry.target;
+
+      if(entry.isIntersecting){
+
+        video.play().catch(()=>{});
+
+      }else{
+
+        video.pause();
+
+      }
+
+    });
+
+  },
+  {
+    threshold:0.7
+  }
+);
+
+
+document.querySelectorAll("video").forEach(video => {
+
+  observer.observe(video);
+
+});
 
 </script>
 
