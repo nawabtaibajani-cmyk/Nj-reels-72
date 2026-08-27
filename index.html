@@ -1,231 +1,782 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nawab Jani 72</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>NJ72 - Short Video App</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;color:#fff;font-family:Arial,sans-serif}
+body{overflow-x:hidden}
 
-    body {
-      background: #000;
-      color: #fff;
-    }
+.app{
+  max-width:600px;
+  margin:auto;
+  background:#000;
+  min-height:100vh;
+}
 
-    header {
-      height: 60px;
-      background: #111;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 15px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      border-bottom: 1px solid #333;
-    }
+header{
+  height:62px;
+  background:#111;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  position:fixed;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:600px;
+  z-index:100;
+  border-bottom:1px solid #292929;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
+.logo{
+  font-size:27px;
+  font-weight:900;
+  font-style:italic;
+}
+.logo span{color:#ff1764}
 
-    .logo span {
-      color: #ff0055;
-    }
+.top-add{
+  font-size:38px;
+  font-weight:200;
+  line-height:1;
+  cursor:pointer;
+}
 
-    .add {
-      font-size: 30px;
-      cursor: pointer;
-    }
+.feed{
+  padding-top:62px;
+  padding-bottom:70px;
+}
 
-    .feed {
-      padding-bottom: 75px;
-    }
+.reel{
+  height:calc(100vh - 62px);
+  min-height:560px;
+  position:relative;
+  background:#202020;
+  overflow:hidden;
+  border-bottom:2px solid #000;
+}
 
-    .reel {
-      height: calc(100vh - 60px);
-      min-height: 600px;
-      position: relative;
-      background: #222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 2px solid #000;
-      overflow: hidden;
-    }
+.reel video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:#202020;
+}
 
-    .reel-content {
-      text-align: center;
-    }
+.demo{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(160deg,#171717,#282828);
+}
 
-    .reel-content .play {
-      font-size: 70px;
-      margin-bottom: 15px;
-    }
+.demo-icon{
+  width:125px;
+  height:125px;
+  background:#ff9500;
+  border-radius:12px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:65px;
+  margin-bottom:25px;
+  box-shadow:0 4px 15px #0008;
+}
 
-    .reel-content h2 {
-      font-size: 28px;
-    }
+.demo h1{
+  font-size:35px;
+  font-style:italic;
+  margin-bottom:8px;
+}
 
-    .reel-content p {
-      margin-top: 8px;
-      color: #ccc;
-    }
+.demo p{
+  color:#ccc;
+  font-size:18px;
+}
 
-    .actions {
-      position: absolute;
-      right: 15px;
-      bottom: 100px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      text-align: center;
-    }
+.actions{
+  position:absolute;
+  right:13px;
+  bottom:135px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  z-index:10;
+}
 
-    .action {
-      font-size: 28px;
-      cursor: pointer;
-    }
+.action{
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+}
 
-    .action small {
-      display: block;
-      font-size: 12px;
-      margin-top: 3px;
-    }
+.action-icon{
+  font-size:31px;
+  filter:drop-shadow(0 1px 2px #000);
+}
 
-    .caption {
-      position: absolute;
-      left: 15px;
-      bottom: 30px;
-      max-width: 75%;
-    }
+.action-count{
+  font-size:13px;
+  margin-top:3px;
+  font-weight:bold;
+}
 
-    .caption b {
-      font-size: 17px;
-    }
+.caption{
+  position:absolute;
+  left:16px;
+  right:75px;
+  bottom:25px;
+  z-index:10;
+  text-shadow:0 1px 4px #000;
+}
 
-    .caption p {
-      margin-top: 7px;
-      color: #ddd;
-    }
+.caption .user{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
 
-    nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 65px;
-      background: #111;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      border-top: 1px solid #333;
-      z-index: 20;
-    }
+.caption .text{
+  font-size:15px;
+  line-height:1.4;
+}
 
-    nav div {
-      text-align: center;
-      font-size: 24px;
-      cursor: pointer;
-    }
+nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:600px;
+  height:70px;
+  background:#111;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:100;
+  border-top:1px solid #292929;
+}
 
-    nav span {
-      display: block;
-      font-size: 10px;
-      margin-top: 3px;
-    }
-  </style>
+.nav-item{
+  width:25%;
+  text-align:center;
+  cursor:pointer;
+  color:#aaa;
+  font-size:24px;
+}
+
+.nav-item.active{color:#fff}
+.nav-item span{
+  display:block;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000b;
+  z-index:200;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.modal-box{
+  width:100%;
+  max-width:600px;
+  background:#151515;
+  border-radius:22px 22px 0 0;
+  padding:22px;
+  max-height:85vh;
+  overflow:auto;
+}
+
+.modal-title{
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+
+.close{
+  float:right;
+  font-size:25px;
+  cursor:pointer;
+}
+
+input,textarea{
+  width:100%;
+  background:#252525;
+  color:#fff;
+  border:1px solid #444;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+  outline:none;
+  font-size:15px;
+}
+
+textarea{height:90px;resize:none}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  background:#ff1764;
+  color:#fff;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.upload-label{
+  display:block;
+  border:2px dashed #555;
+  border-radius:15px;
+  padding:25px 15px;
+  text-align:center;
+  margin-bottom:14px;
+  color:#ccc;
+  cursor:pointer;
+}
+
+#videoInput{display:none}
+
+.comment{
+  background:#222;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:8px;
+}
+
+.comment b{font-size:14px}
+.comment p{margin-top:5px;color:#ddd}
+
+.search-box{
+  padding:80px 15px 90px;
+  display:none;
+  min-height:100vh;
+  background:#000;
+}
+
+.search-title{
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+
+.profile-page{
+  padding:85px 18px 90px;
+  display:none;
+  min-height:100vh;
+  background:#000;
+  text-align:center;
+}
+
+.avatar{
+  width:95px;
+  height:95px;
+  margin:auto;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff1764,#ff9500);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:43px;
+  font-weight:bold;
+}
+
+.profile-page h2{margin-top:12px}
+.profile-page p{color:#aaa;margin-top:6px}
+
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:45px;
+  margin:25px 0;
+}
+
+.stats b{
+  display:block;
+  font-size:20px;
+}
+
+.stats small{color:#aaa}
+
+.empty{
+  text-align:center;
+  color:#888;
+  padding:30px;
+}
+
+.toast{
+  position:fixed;
+  bottom:85px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#fff;
+  color:#000;
+  padding:12px 18px;
+  border-radius:25px;
+  display:none;
+  z-index:300;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+@media(min-width:601px){
+  body{background:#333}
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">NJ<span>72</span></div>
-    <div class="add" onclick="upload()">＋</div>
-  </header>
+<div class="app">
 
-  <main class="feed">
+<header>
+  <div class="logo">NJ<span>72</span></div>
+  <div class="top-add" onclick="openUpload()">＋</div>
+</header>
 
-    <section class="reel">
-      <div class="reel-content">
-        <div class="play">▶️</div>
-        <h2>Nawab Jani 72</h2>
-        <p>Short videos ka naya platform</p>
+<main>
+
+<section id="homePage" class="feed">
+
+  <div id="demoReel" class="reel">
+    <div class="demo">
+      <div class="demo-icon">▶</div>
+      <h1>Nawab Jani 72</h1>
+      <p>Short videos ka naya platform 🚀</p>
+    </div>
+
+    <div class="actions">
+
+      <div class="action" onclick="likeDemo()">
+        <div id="likeIcon" class="action-icon">❤️</div>
+        <div id="likeCount" class="action-count">0</div>
       </div>
 
-      <div class="actions">
-        <div class="action" onclick="like(this)">
-          ❤️
-          <small>0</small>
-        </div>
-
-        <div class="action">
-          💬
-          <small>0</small>
-        </div>
-
-        <div class="action">
-          ↗️
-          <small>Share</small>
-        </div>
+      <div class="action" onclick="openComments()">
+        <div class="action-icon">💬</div>
+        <div id="commentCount" class="action-count">0</div>
       </div>
 
-      <div class="caption">
-        <b>@nawabjani72</b>
-        <p>Welcome to NJ72 🚀</p>
+      <div class="action" onclick="shareApp()">
+        <div class="action-icon">↗️</div>
+        <div class="action-count">Share</div>
       </div>
-    </section>
 
-  </main>
+    </div>
 
-  <nav>
-    <div onclick="home()">🏠<span>Home</span></div>
-    <div onclick="search()">🔍<span>Search</span></div>
-    <div onclick="upload()">➕<span>Create</span></div>
-    <div onclick="profile()">👤<span>Profile</span></div>
-  </nav>
+    <div class="caption">
+      <div class="user">@nawabjani72</div>
+      <div class="text">Welcome to NJ72 ❤️ Apni short video community 🚀</div>
+    </div>
+  </div>
 
-  <script>
-    function like(element) {
-      let number = element.querySelector("small");
-      let count = parseInt(number.innerText);
+  <div id="uploadedFeed"></div>
 
-      if (element.dataset.liked !== "yes") {
-        count++;
-        element.dataset.liked = "yes";
-        element.firstChild.textContent = "❤️";
-      } else {
-        count--;
-        element.dataset.liked = "no";
-      }
+</section>
 
-      number.innerText = count;
+<section id="searchPage" class="search-box">
+  <div class="search-title">Search 🔍</div>
+  <input id="searchInput"
+         type="text"
+         placeholder="Search users or videos..."
+         oninput="doSearch()">
+  <div id="searchResults" class="empty">
+    Search karke dekhiye 🔎
+  </div>
+</section>
+
+<section id="profilePage" class="profile-page">
+  <div class="avatar">NJ</div>
+  <h2>@nawabjani72</h2>
+  <p>Nawab Jani 72</p>
+
+  <div class="stats">
+    <div><b id="videoStat">0</b><small>Videos</small></div>
+    <div><b>0</b><small>Followers</small></div>
+    <div><b>0</b><small>Following</small></div>
+  </div>
+
+  <button onclick="openUpload()">＋ Create Video</button>
+</section>
+
+</main>
+
+<nav>
+  <div class="nav-item active" id="homeNav" onclick="showPage('home')">
+    🏠<span>Home</span>
+  </div>
+
+  <div class="nav-item" id="searchNav" onclick="showPage('search')">
+    🔍<span>Search</span>
+  </div>
+
+  <div class="nav-item" onclick="openUpload()">
+    ➕<span>Create</span>
+  </div>
+
+  <div class="nav-item" id="profileNav" onclick="showPage('profile')">
+    👤<span>Profile</span>
+  </div>
+</nav>
+
+</div>
+
+<!-- UPLOAD MODAL -->
+<div id="uploadModal" class="modal">
+  <div class="modal-box">
+
+    <span class="close" onclick="closeUpload()">×</span>
+    <div class="modal-title">Create New Reel 🎬</div>
+
+    <label class="upload-label" for="videoInput">
+      🎥<br><br>
+      <b>Video select karein</b><br>
+      <small>Phone se short video choose karein</small>
+    </label>
+
+    <input id="videoInput" type="file" accept="video/*">
+
+    <input id="captionInput"
+           type="text"
+           maxlength="100"
+           placeholder="Caption likhiye...">
+
+    <button onclick="publishVideo()">Publish Reel 🚀</button>
+
+  </div>
+</div>
+
+<!-- COMMENT MODAL -->
+<div id="commentModal" class="modal">
+  <div class="modal-box">
+
+    <span class="close" onclick="closeComments()">×</span>
+    <div class="modal-title">Comments 💬</div>
+
+    <div id="commentsList">
+      <div class="empty">Abhi koi comment nahi hai.</div>
+    </div>
+
+    <textarea id="commentInput"
+              placeholder="Comment likhiye..."></textarea>
+
+    <button onclick="addComment()">Comment Post Karein</button>
+
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+let liked = false;
+let likes = 0;
+let comments = [];
+
+function toast(message){
+  const t=document.getElementById("toast");
+  t.innerText=message;
+  t.style.display="block";
+
+  setTimeout(()=>{
+    t.style.display="none";
+  },1800);
+}
+
+function likeDemo(){
+
+  liked=!liked;
+
+  if(liked){
+    likes++;
+    document.getElementById("likeIcon").innerText="💖";
+  }else{
+    likes--;
+    document.getElementById("likeIcon").innerText="❤️";
+  }
+
+  document.getElementById("likeCount").innerText=likes;
+}
+
+function openUpload(){
+  document.getElementById("uploadModal").style.display="flex";
+}
+
+function closeUpload(){
+  document.getElementById("uploadModal").style.display="none";
+}
+
+function openComments(){
+  document.getElementById("commentModal").style.display="flex";
+  renderComments();
+}
+
+function closeComments(){
+  document.getElementById("commentModal").style.display="none";
+}
+
+function addComment(){
+
+  const input=document.getElementById("commentInput");
+  const text=input.value.trim();
+
+  if(!text){
+    toast("Comment likhiye 🙂");
+    return;
+  }
+
+  comments.push(text);
+  input.value="";
+
+  renderComments();
+
+  document.getElementById("commentCount").innerText=comments.length;
+}
+
+function renderComments(){
+
+  const box=document.getElementById("commentsList");
+
+  if(comments.length===0){
+    box.innerHTML='<div class="empty">Abhi koi comment nahi hai.</div>';
+    return;
+  }
+
+  box.innerHTML="";
+
+  comments.forEach((comment,index)=>{
+
+    const div=document.createElement("div");
+    div.className="comment";
+
+    div.innerHTML=
+      "<b>@nawabjani72</b>"+
+      "<p>"+escapeHTML(comment)+"</p>";
+
+    box.appendChild(div);
+
+  });
+}
+
+function escapeHTML(text){
+  return text
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function shareApp(){
+
+  const url=window.location.href;
+
+  if(navigator.share){
+
+    navigator.share({
+      title:"NJ72",
+      text:"Nawab Jani 72 - Short Video App",
+      url:url
+    }).catch(()=>{});
+
+  }else{
+
+    navigator.clipboard.writeText(url);
+
+    toast("App link copy ho gaya ✅");
+
+  }
+}
+
+function publishVideo(){
+
+  const input=document.getElementById("videoInput");
+  const caption=document.getElementById("captionInput");
+
+  if(!input.files || !input.files[0]){
+
+    toast("Pehle video select karein 🎥");
+    return;
+
+  }
+
+  const file=input.files[0];
+
+  if(!file.type.startsWith("video/")){
+
+    toast("Sirf video select karein");
+    return;
+
+  }
+
+  const url=URL.createObjectURL(file);
+
+  const reel=document.createElement("div");
+  reel.className="reel";
+
+  reel.innerHTML=`
+
+    <video controls playsinline loop>
+      <source src="${url}" type="${file.type}">
+    </video>
+
+    <div class="actions">
+
+      <div class="action">
+        <div class="action-icon">❤️</div>
+        <div class="action-count">0</div>
+      </div>
+
+      <div class="action">
+        <div class="action-icon">💬</div>
+        <div class="action-count">0</div>
+      </div>
+
+      <div class="action" onclick="shareApp()">
+        <div class="action-icon">↗️</div>
+        <div class="action-count">Share</div>
+      </div>
+
+    </div>
+
+    <div class="caption">
+      <div class="user">@nawabjani72</div>
+      <div class="text">
+        ${escapeHTML(caption.value || "My new NJ72 reel 🚀")}
+      </div>
+    </div>
+  `;
+
+  document.getElementById("uploadedFeed").prepend(reel);
+
+  document.getElementById("videoStat").innerText=
+    document.querySelectorAll("#uploadedFeed .reel").length;
+
+  input.value="";
+  caption.value="";
+
+  closeUpload();
+
+  showPage("home");
+
+  toast("Reel publish ho gayi 🚀");
+
+}
+
+function showPage(page){
+
+  const home=document.getElementById("homePage");
+  const search=document.getElementById("searchPage");
+  const profile=document.getElementById("profilePage");
+
+  home.style.display="none";
+  search.style.display="none";
+  profile.style.display="none";
+
+  document.querySelectorAll(".nav-item")
+    .forEach(x=>x.classList.remove("active"));
+
+  if(page==="home"){
+
+    home.style.display="block";
+    document.getElementById("homeNav").classList.add("active");
+
+  }
+
+  if(page==="search"){
+
+    search.style.display="block";
+    document.getElementById("searchNav").classList.add("active");
+
+  }
+
+  if(page==="profile"){
+
+    profile.style.display="block";
+    document.getElementById("profileNav").classList.add("active");
+
+  }
+
+  window.scrollTo(0,0);
+}
+
+function doSearch(){
+
+  const value=document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
+
+  const results=document.getElementById("searchResults");
+
+  if(!value){
+
+    results.innerHTML="Search karke dekhiye 🔎";
+    return;
+
+  }
+
+  if(
+    "nawabjani72".includes(value) ||
+    "nawab jani 72".includes(value) ||
+    "nj72".includes(value)
+  ){
+
+    results.innerHTML=`
+      <div style="
+        background:#202020;
+        padding:18px;
+        border-radius:15px;
+        text-align:left;
+      ">
+        <b style="font-size:18px">@nawabjani72</b>
+        <p style="color:#aaa;margin-top:7px">
+          Nawab Jani 72 • Short Videos
+        </p>
+      </div>
+    `;
+
+  }else{
+
+    results.innerHTML=
+      "Koi result nahi mila 😕";
+
+  }
+}
+
+document
+  .getElementById("videoInput")
+  .addEventListener("change",function(){
+
+    if(this.files[0]){
+
+      const mb=
+        (this.files[0].size/1024/1024).toFixed(1);
+
+      toast("Video select ho gayi • "+mb+" MB");
+
     }
 
-    function upload() {
-      alert("Video upload feature jaldi aa raha hai 🚀");
-    }
+  });
 
-    function home() {
-      window.scrollTo(0, 0);
-    }
-
-    function search() {
-      alert("Search feature jaldi aa raha hai 🔍");
-    }
-
-    function profile() {
-      alert("Profile feature jaldi aa raha hai 👤");
-    }
-  </script>
+</script>
 
 </body>
 </html>
-
