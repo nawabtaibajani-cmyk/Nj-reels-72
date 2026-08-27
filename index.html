@@ -1,533 +1,231 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nawab Jani 72</title>
 
-<title>NJ Reels 72</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    body {
+      background: #000;
+      color: #fff;
+    }
 
-html,body{
-  width:100%;
-  height:100%;
-  background:#000;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  overflow:hidden;
-}
+    header {
+      height: 60px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid #333;
+    }
 
-#app{
-  height:100dvh;
-  max-width:520px;
-  margin:auto;
-  background:#111;
-  position:relative;
-}
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-#reels{
-  height:100%;
-  overflow-y:auto;
-  scroll-snap-type:y mandatory;
-  scrollbar-width:none;
-}
+    .logo span {
+      color: #ff0055;
+    }
 
-#reels::-webkit-scrollbar{
-  display:none;
-}
+    .add {
+      font-size: 30px;
+      cursor: pointer;
+    }
 
-.reel{
-  height:100dvh;
-  position:relative;
-  scroll-snap-align:start;
-  background:#000;
-  overflow:hidden;
-}
+    .feed {
+      padding-bottom: 75px;
+    }
 
-.reel video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  background:#111;
-}
+    .reel {
+      height: calc(100vh - 60px);
+      min-height: 600px;
+      position: relative;
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 2px solid #000;
+      overflow: hidden;
+    }
 
-.top{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  padding:18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:3;
-  background:linear-gradient(#000b,transparent);
-}
+    .reel-content {
+      text-align: center;
+    }
 
-.logo{
-  font-size:27px;
-  font-weight:800;
-  font-style:italic;
-}
+    .reel-content .play {
+      font-size: 70px;
+      margin-bottom: 15px;
+    }
 
-.logo span{
-  color:#ff1744;
-}
+    .reel-content h2 {
+      font-size: 28px;
+    }
 
-.follow{
-  border:1px solid #fff;
-  border-radius:22px;
-  padding:9px 17px;
-  background:#0008;
-  color:#fff;
-  font-weight:700;
-}
+    .reel-content p {
+      margin-top: 8px;
+      color: #ccc;
+    }
 
-.info{
-  position:absolute;
-  left:18px;
-  right:85px;
-  bottom:25px;
-  z-index:3;
-  text-shadow:0 1px 5px #000;
-}
+    .actions {
+      position: absolute;
+      right: 15px;
+      bottom: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
 
-.username{
-  font-size:18px;
-  font-weight:800;
-  margin-bottom:8px;
-}
+    .action {
+      font-size: 28px;
+      cursor: pointer;
+    }
 
-.caption{
-  font-size:15px;
-  line-height:1.35;
-}
+    .action small {
+      display: block;
+      font-size: 12px;
+      margin-top: 3px;
+    }
 
-.actions{
-  position:absolute;
-  right:14px;
-  bottom:105px;
-  z-index:4;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:18px;
-}
+    .caption {
+      position: absolute;
+      left: 15px;
+      bottom: 30px;
+      max-width: 75%;
+    }
 
-.action{
-  border:0;
-  background:none;
-  color:#fff;
-  text-align:center;
-  font-size:29px;
-  cursor:pointer;
-  text-shadow:0 2px 5px #000;
-}
+    .caption b {
+      font-size: 17px;
+    }
 
-.action .count{
-  font-size:13px;
-  margin-top:3px;
-  font-weight:700;
-}
+    .caption p {
+      margin-top: 7px;
+      color: #ddd;
+    }
 
-.liked{
-  transform:scale(1.12);
-}
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: #111;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #333;
+      z-index: 20;
+    }
 
-.playhint{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:60px;
-  opacity:0;
-  pointer-events:none;
-  z-index:2;
-}
+    nav div {
+      text-align: center;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-.reel.paused .playhint{
-  opacity:.85;
-}
-
-.loading{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:1;
-  font-size:14px;
-}
-
-.error{
-  position:absolute;
-  left:15px;
-  right:15px;
-  top:50%;
-  transform:translateY(-50%);
-  text-align:center;
-  z-index:2;
-  display:none;
-}
-
-.error b{
-  font-size:18px;
-  display:block;
-  margin-bottom:8px;
-}
-
-.error button{
-  padding:10px 16px;
-  border:0;
-  border-radius:20px;
-  font-weight:700;
-  margin-top:10px;
-}
-</style>
+    nav span {
+      display: block;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="app">
-
-<div id="reels">
-
-<!-- REEL 1 -->
-<section class="reel">
-
-<video
-src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-muted
-autoplay
-loop
-playsinline
-preload="metadata">
-</video>
-
-<div class="loading">
-Video loading…
-</div>
-
-<div class="error">
-<b>Video load nahi hua</b>
-<span>Internet check karke Retry dabaye.</span>
-<br>
-<button onclick="retry(this)">Retry</button>
-</div>
-
-<div class="playhint">
-▶
-</div>
-
-<div class="top">
-
-<div class="logo">
-NJ <span>Reels</span>
-</div>
-
-<button class="follow" onclick="followUser(this)">
-Follow
-</button>
-
-</div>
-
-<div class="info">
-
-<div class="username">
-@nj_reels_72
-</div>
-
-<div class="caption">
-🔥 NJ Reels 72 — Short Videos
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="action" onclick="like(this)">
-❤️
-<div class="count">0</div>
-</button>
-
-<button class="action" onclick="comment()">
-💬
-<div class="count">0</div>
-</button>
-
-<button class="action" onclick="shareReel()">
-📤
-<div class="count">Share</div>
-</button>
-
-</div>
-
-</section>
-
-
-<!-- REEL 2 -->
-<section class="reel">
-
-<video
-src="https://www.w3schools.com/html/mov_bbb.mp4"
-muted
-autoplay
-loop
-playsinline
-preload="metadata">
-</video>
-
-<div class="loading">
-Video loading…
-</div>
-
-<div class="error">
-<b>Video load nahi hua</b>
-<span>Internet check karke Retry dabaye.</span>
-<br>
-<button onclick="retry(this)">Retry</button>
-</div>
-
-<div class="playhint">
-▶
-</div>
-
-<div class="top">
-
-<div class="logo">
-NJ <span>Reels</span>
-</div>
-
-<button class="follow" onclick="followUser(this)">
-Follow
-</button>
-
-</div>
-
-<div class="info">
-
-<div class="username">
-@nj_reels_72
-</div>
-
-<div class="caption">
-😎 Welcome to NJ Reels 72
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="action" onclick="like(this)">
-❤️
-<div class="count">0</div>
-</button>
-
-<button class="action" onclick="comment()">
-💬
-<div class="count">0</div>
-</button>
-
-<button class="action" onclick="shareReel()">
-📤
-<div class="count">Share</div>
-</button>
-
-</div>
-
-</section>
-
-</div>
-</div>
-
-
-<script>
-
-function like(btn){
-
-const count=btn.querySelector(".count");
-
-let n=parseInt(count.textContent)||0;
-
-if(n===0){
-
-n=1;
-
-}else{
-
-n=0;
-
-}
-
-count.textContent=n;
-
-btn.classList.toggle("liked",n===1);
-
-}
-
-
-function comment(){
-
-alert("Comments feature jaldi add karenge ❤️");
-
-}
-
-
-function followUser(btn){
-
-if(btn.textContent.trim()==="Follow"){
-
-btn.textContent="Following";
-
-}else{
-
-btn.textContent="Follow";
-
-}
-
-}
-
-
-async function shareReel(){
-
-const data={
-title:"NJ Reels 72",
-text:"NJ Reels 72 par reel dekho!"
-};
-
-if(navigator.share){
-
-try{
-
-await navigator.share(data);
-
-}catch(e){}
-
-}else{
-
-alert("Share button dabaya gaya.");
-
-}
-
-}
-
-
-function retry(btn){
-
-const reel=btn.closest(".reel");
-
-const video=reel.querySelector("video");
-
-reel.querySelector(".error").style.display="none";
-
-video.load();
-
-video.play().catch(()=>{});
-
-}
-
-
-document.querySelectorAll(".reel").forEach(reel=>{
-
-const video=reel.querySelector("video");
-
-const loading=reel.querySelector(".loading");
-
-const error=reel.querySelector(".error");
-
-
-video.addEventListener("loadeddata",()=>{
-
-loading.style.display="none";
-
-});
-
-
-video.addEventListener("playing",()=>{
-
-loading.style.display="none";
-
-reel.classList.remove("paused");
-
-});
-
-
-video.addEventListener("pause",()=>{
-
-reel.classList.add("paused");
-
-});
-
-
-video.addEventListener("error",()=>{
-
-loading.style.display="none";
-
-error.style.display="block";
-
-});
-
-
-video.addEventListener("click",()=>{
-
-if(video.paused){
-
-video.play();
-
-}else{
-
-video.pause();
-
-}
-
-});
-
-});
-
-
-const observer=new IntersectionObserver(
-
-entries=>{
-
-entries.forEach(entry=>{
-
-const video=entry.target.querySelector("video");
-
-if(entry.isIntersecting){
-
-video.play().catch(()=>{});
-
-}else{
-
-video.pause();
-
-}
-
-});
-
-},
-
-{
-threshold:0.65
-}
-
-);
-
-
-document.querySelectorAll(".reel").forEach(reel=>{
-
-observer.observe(reel);
-
-});
-
-
-</script>
+  <header>
+    <div class="logo">NJ<span>72</span></div>
+    <div class="add" onclick="upload()">＋</div>
+  </header>
+
+  <main class="feed">
+
+    <section class="reel">
+      <div class="reel-content">
+        <div class="play">▶️</div>
+        <h2>Nawab Jani 72</h2>
+        <p>Short videos ka naya platform</p>
+      </div>
+
+      <div class="actions">
+        <div class="action" onclick="like(this)">
+          ❤️
+          <small>0</small>
+        </div>
+
+        <div class="action">
+          💬
+          <small>0</small>
+        </div>
+
+        <div class="action">
+          ↗️
+          <small>Share</small>
+        </div>
+      </div>
+
+      <div class="caption">
+        <b>@nawabjani72</b>
+        <p>Welcome to NJ72 🚀</p>
+      </div>
+    </section>
+
+  </main>
+
+  <nav>
+    <div onclick="home()">🏠<span>Home</span></div>
+    <div onclick="search()">🔍<span>Search</span></div>
+    <div onclick="upload()">➕<span>Create</span></div>
+    <div onclick="profile()">👤<span>Profile</span></div>
+  </nav>
+
+  <script>
+    function like(element) {
+      let number = element.querySelector("small");
+      let count = parseInt(number.innerText);
+
+      if (element.dataset.liked !== "yes") {
+        count++;
+        element.dataset.liked = "yes";
+        element.firstChild.textContent = "❤️";
+      } else {
+        count--;
+        element.dataset.liked = "no";
+      }
+
+      number.innerText = count;
+    }
+
+    function upload() {
+      alert("Video upload feature jaldi aa raha hai 🚀");
+    }
+
+    function home() {
+      window.scrollTo(0, 0);
+    }
+
+    function search() {
+      alert("Search feature jaldi aa raha hai 🔍");
+    }
+
+    function profile() {
+      alert("Profile feature jaldi aa raha hai 👤");
+    }
+  </script>
 
 </body>
 </html>
+
