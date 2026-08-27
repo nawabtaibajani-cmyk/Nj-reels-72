@@ -1,342 +1,499 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>NJ72 - Short Video App</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NJ72 - Nawab Jani 72</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#000;color:#fff;font-family:Arial,sans-serif}
-body{overflow-x:hidden}
-
-.app{
-  max-width:600px;
-  margin:auto;
-  background:#000;
-  min-height:100vh;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-header{
-  height:62px;
+html,body{
+  width:100%;
+  height:100%;
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
+}
+
+button,input{
+  font-family:inherit;
+}
+
+.app{
+  width:100%;
+  height:100vh;
+  background:#000;
+  position:relative;
+}
+
+/* TOP BAR */
+.top{
+  height:64px;
   background:#111;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 18px;
-  position:fixed;
-  top:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:600px;
-  z-index:100;
+  padding:0 20px;
   border-bottom:1px solid #292929;
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index:50;
 }
 
 .logo{
-  font-size:27px;
+  font-size:31px;
   font-weight:900;
   font-style:italic;
 }
-.logo span{color:#ff1764}
 
-.top-add{
-  font-size:38px;
-  font-weight:200;
-  line-height:1;
+.logo span{
+  color:#ff0066;
+}
+
+.plusTop{
+  font-size:36px;
+  color:white;
+  background:none;
+  border:0;
   cursor:pointer;
 }
 
+/* FEED */
 .feed{
-  padding-top:62px;
-  padding-bottom:70px;
+  position:absolute;
+  top:64px;
+  bottom:70px;
+  left:0;
+  right:0;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+  scrollbar-width:none;
+}
+
+.feed::-webkit-scrollbar{
+  display:none;
 }
 
 .reel{
-  height:calc(100vh - 62px);
-  min-height:560px;
+  height:100%;
+  min-height:100%;
   position:relative;
-  background:#202020;
+  scroll-snap-align:start;
+  background:#222;
   overflow:hidden;
-  border-bottom:2px solid #000;
 }
 
-.reel video{
+.video{
   width:100%;
   height:100%;
   object-fit:cover;
-  background:#202020;
+  background:#222;
 }
 
-.demo{
-  width:100%;
-  height:100%;
+.videoPlaceholder{
+  position:absolute;
+  inset:0;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
+  gap:15px;
   text-align:center;
-  background:linear-gradient(160deg,#171717,#282828);
+  padding:30px;
 }
 
-.demo-icon{
+.playLogo{
   width:125px;
   height:125px;
-  background:#ff9500;
-  border-radius:12px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#ff9d00,#ff6200);
   display:flex;
   justify-content:center;
   align-items:center;
   font-size:65px;
-  margin-bottom:25px;
-  box-shadow:0 4px 15px #0008;
+  box-shadow:0 5px 25px #0008;
 }
 
-.demo h1{
+.videoPlaceholder h1{
   font-size:35px;
   font-style:italic;
-  margin-bottom:8px;
 }
 
-.demo p{
-  color:#ccc;
+.videoPlaceholder p{
+  color:#bbb;
   font-size:18px;
 }
 
+/* PLAY BUTTON */
+.bigPlay{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  border:0;
+  background:#fff;
+  color:#000;
+  font-size:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+
+/* RIGHT BUTTONS */
 .actions{
   position:absolute;
-  right:13px;
+  right:14px;
   bottom:135px;
   display:flex;
   flex-direction:column;
-  gap:18px;
-  z-index:10;
+  gap:17px;
+  align-items:center;
+  z-index:20;
 }
 
-.action{
-  text-align:center;
+.actionBtn{
+  border:0;
+  background:none;
+  color:#fff;
+  font-size:35px;
   cursor:pointer;
-  user-select:none;
+  text-align:center;
+  text-shadow:0 2px 5px #000;
 }
 
-.action-icon{
-  font-size:31px;
-  filter:drop-shadow(0 1px 2px #000);
+.actionBtn small{
+  display:block;
+  font-size:14px;
+  margin-top:-5px;
 }
 
-.action-count{
-  font-size:13px;
-  margin-top:3px;
-  font-weight:bold;
+.like.active{
+  color:#ff1744;
 }
 
-.caption{
+/* INFO */
+.info{
   position:absolute;
-  left:16px;
-  right:75px;
-  bottom:25px;
-  z-index:10;
-  text-shadow:0 1px 4px #000;
+  left:22px;
+  bottom:22px;
+  max-width:78%;
+  z-index:20;
+  text-shadow:0 2px 6px #000;
 }
 
-.caption .user{
-  font-size:18px;
+.username{
+  font-size:21px;
   font-weight:bold;
   margin-bottom:8px;
 }
 
-.caption .text{
-  font-size:15px;
+.caption{
+  font-size:17px;
   line-height:1.4;
 }
 
-nav{
-  position:fixed;
+.location{
+  margin-bottom:10px;
+  font-size:19px;
+  font-weight:bold;
+}
+
+/* PROGRESS */
+.progress{
+  position:absolute;
   bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:600px;
+  left:0;
+  height:3px;
+  width:0%;
+  background:#ff0066;
+  z-index:30;
+}
+
+/* VIDEO CONTROLS */
+.controls{
+  position:absolute;
+  right:18px;
+  bottom:25px;
+  display:flex;
+  gap:18px;
+  z-index:30;
+}
+
+.controlBtn{
+  border:0;
+  background:none;
+  color:white;
+  font-size:25px;
+  text-shadow:0 2px 5px #000;
+}
+
+/* BOTTOM NAV */
+.bottom{
   height:70px;
   background:#111;
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:50;
   display:flex;
   justify-content:space-around;
   align-items:center;
-  z-index:100;
   border-top:1px solid #292929;
 }
 
-.nav-item{
-  width:25%;
-  text-align:center;
-  cursor:pointer;
+.navBtn{
+  background:none;
+  border:0;
   color:#aaa;
-  font-size:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  font-size:12px;
+  cursor:pointer;
 }
 
-.nav-item.active{color:#fff}
-.nav-item span{
-  display:block;
-  font-size:11px;
-  margin-top:3px;
+.navIcon{
+  font-size:28px;
 }
 
+.navBtn.active{
+  color:white;
+}
+
+.createIcon{
+  font-size:45px;
+  line-height:25px;
+}
+
+/* MODAL */
 .modal{
   display:none;
   position:fixed;
   inset:0;
   background:#000b;
-  z-index:200;
+  z-index:100;
   align-items:flex-end;
   justify-content:center;
 }
 
-.modal-box{
-  width:100%;
-  max-width:600px;
-  background:#151515;
-  border-radius:22px 22px 0 0;
-  padding:22px;
-  max-height:85vh;
-  overflow:auto;
+.modal.show{
+  display:flex;
 }
 
-.modal-title{
-  font-size:22px;
-  font-weight:bold;
+.sheet{
+  width:100%;
+  max-width:600px;
+  background:#171717;
+  border-radius:25px 25px 0 0;
+  padding:22px;
+  max-height:90vh;
+  overflow-y:auto;
+}
+
+.sheet h2{
   margin-bottom:18px;
 }
 
 .close{
   float:right;
-  font-size:25px;
-  cursor:pointer;
-}
-
-input,textarea{
-  width:100%;
-  background:#252525;
-  color:#fff;
-  border:1px solid #444;
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
-  outline:none;
-  font-size:15px;
-}
-
-textarea{height:90px;resize:none}
-
-button{
-  width:100%;
   border:0;
-  border-radius:12px;
-  padding:14px;
-  background:#ff1764;
+  background:#333;
   color:#fff;
-  font-weight:bold;
-  font-size:16px;
-  cursor:pointer;
-}
-
-.upload-label{
-  display:block;
-  border:2px dashed #555;
-  border-radius:15px;
-  padding:25px 15px;
-  text-align:center;
-  margin-bottom:14px;
-  color:#ccc;
-  cursor:pointer;
-}
-
-#videoInput{display:none}
-
-.comment{
-  background:#222;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:8px;
-}
-
-.comment b{font-size:14px}
-.comment p{margin-top:5px;color:#ddd}
-
-.search-box{
-  padding:80px 15px 90px;
-  display:none;
-  min-height:100vh;
-  background:#000;
-}
-
-.search-title{
-  font-size:24px;
-  font-weight:bold;
-  margin-bottom:18px;
-}
-
-.profile-page{
-  padding:85px 18px 90px;
-  display:none;
-  min-height:100vh;
-  background:#000;
-  text-align:center;
-}
-
-.avatar{
-  width:95px;
-  height:95px;
-  margin:auto;
+  width:35px;
+  height:35px;
   border-radius:50%;
-  background:linear-gradient(135deg,#ff1764,#ff9500);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:43px;
-  font-weight:bold;
-}
-
-.profile-page h2{margin-top:12px}
-.profile-page p{color:#aaa;margin-top:6px}
-
-.stats{
-  display:flex;
-  justify-content:center;
-  gap:45px;
-  margin:25px 0;
-}
-
-.stats b{
-  display:block;
   font-size:20px;
 }
 
-.stats small{color:#aaa}
-
-.empty{
+.uploadBox{
+  border:2px dashed #555;
+  border-radius:18px;
+  padding:30px 15px;
   text-align:center;
-  color:#888;
-  padding:30px;
+  margin-bottom:18px;
 }
 
-.toast{
-  position:fixed;
-  bottom:85px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#fff;
-  color:#000;
-  padding:12px 18px;
-  border-radius:25px;
-  display:none;
-  z-index:300;
+.uploadBox input{
+  width:100%;
+  margin-top:15px;
+}
+
+.field{
+  width:100%;
+  background:#252525;
+  border:1px solid #444;
+  color:#fff;
+  padding:14px;
+  border-radius:12px;
+  margin:7px 0;
+  outline:none;
+}
+
+.mainBtn{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:14px;
+  background:#ff0066;
+  color:#fff;
+  font-size:17px;
   font-weight:bold;
-  white-space:nowrap;
+  margin-top:10px;
 }
 
-@media(min-width:601px){
-  body{background:#333}
+/* FILTERS */
+.filters{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:10px 0;
+}
+
+.filter{
+  min-width:80px;
+  padding:10px;
+  border:1px solid #555;
+  border-radius:12px;
+  background:#222;
+  color:white;
+}
+
+.filter.selected{
+  border-color:#ff0066;
+  background:#4a0020;
+}
+
+/* SEARCH */
+.searchPage,
+.profilePage{
+  position:absolute;
+  inset:64px 0 70px;
+  background:#111;
+  z-index:40;
+  display:none;
+  overflow-y:auto;
+  padding:25px;
+}
+
+.searchPage.show,
+.profilePage.show{
+  display:block;
+}
+
+.searchInput{
+  width:100%;
+  padding:16px;
+  border-radius:15px;
+  border:1px solid #444;
+  background:#222;
+  color:#fff;
+  font-size:17px;
+}
+
+.searchResult{
+  padding:18px 5px;
+  border-bottom:1px solid #333;
+}
+
+/* PROFILE */
+.profileHead{
+  text-align:center;
+  padding:20px 0;
+}
+
+.avatar{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff0066,#ff9d00);
+  font-size:35px;
+  font-weight:bold;
+}
+
+.profileName{
+  font-size:25px;
+  margin-top:12px;
+}
+
+.stats{
+  display:flex;
+  justify-content:space-around;
+  margin:25px 0;
+  text-align:center;
+}
+
+.stats b{
+  font-size:20px;
+  display:block;
+}
+
+.storyRow{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  padding:10px 0 20px;
+}
+
+.story{
+  min-width:75px;
+  height:75px;
+  border-radius:50%;
+  border:3px solid #ff0066;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:27px;
+  background:#222;
+}
+
+/* COMMENTS */
+.comments{
+  margin-top:10px;
+}
+
+.comment{
+  padding:12px 0;
+  border-bottom:1px solid #333;
+}
+
+.comment b{
+  margin-right:8px;
+}
+
+/* STORY */
+.storyPreview{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  border-radius:18px;
+  background:#222;
+}
+
+/* DESKTOP */
+@media(min-width:700px){
+  .app{
+    max-width:500px;
+    margin:auto;
+    box-shadow:0 0 50px #000;
+  }
 }
 </style>
 </head>
@@ -345,436 +502,1016 @@ button{
 
 <div class="app">
 
-<header>
+<!-- TOP -->
+<header class="top">
   <div class="logo">NJ<span>72</span></div>
-  <div class="top-add" onclick="openUpload()">＋</div>
+  <button class="plusTop" onclick="openCreate()">+</button>
 </header>
 
-<main>
+<!-- FEED -->
+<main class="feed" id="feed">
 
-<section id="homePage" class="feed">
+  <section class="reel">
 
-  <div id="demoReel" class="reel">
-    <div class="demo">
-      <div class="demo-icon">▶</div>
+    <div class="videoPlaceholder">
+      <div class="playLogo">▶</div>
       <h1>Nawab Jani 72</h1>
       <p>Short videos ka naya platform 🚀</p>
     </div>
 
+    <button class="bigPlay" onclick="demoPlay(this)">▶</button>
+
     <div class="actions">
-
-      <div class="action" onclick="likeDemo()">
-        <div id="likeIcon" class="action-icon">❤️</div>
-        <div id="likeCount" class="action-count">0</div>
-      </div>
-
-      <div class="action" onclick="openComments()">
-        <div class="action-icon">💬</div>
-        <div id="commentCount" class="action-count">0</div>
-      </div>
-
-      <div class="action" onclick="shareApp()">
-        <div class="action-icon">↗️</div>
-        <div class="action-count">Share</div>
-      </div>
-
+      <button class="actionBtn like" onclick="likeVideo(this)">❤️<small>0</small></button>
+      <button class="actionBtn" onclick="openComments()">💬<small>0</small></button>
+      <button class="actionBtn" onclick="shareVideo()">↗️<small>Share</small></button>
     </div>
 
-    <div class="caption">
-      <div class="user">@nawabjani72</div>
-      <div class="text">Welcome to NJ72 ❤️ Apni short video community 🚀</div>
+    <div class="info">
+      <div class="username">@nawabjani72</div>
+      <div class="caption">NJ72 ❤️ अपनी लघु वीडियो कम्युनिटी में आपका स्वागत है 🚀</div>
     </div>
-  </div>
 
-  <div id="uploadedFeed"></div>
-
-</section>
-
-<section id="searchPage" class="search-box">
-  <div class="search-title">Search 🔍</div>
-  <input id="searchInput"
-         type="text"
-         placeholder="Search users or videos..."
-         oninput="doSearch()">
-  <div id="searchResults" class="empty">
-    Search karke dekhiye 🔎
-  </div>
-</section>
-
-<section id="profilePage" class="profile-page">
-  <div class="avatar">NJ</div>
-  <h2>@nawabjani72</h2>
-  <p>Nawab Jani 72</p>
-
-  <div class="stats">
-    <div><b id="videoStat">0</b><small>Videos</small></div>
-    <div><b>0</b><small>Followers</small></div>
-    <div><b>0</b><small>Following</small></div>
-  </div>
-
-  <button onclick="openUpload()">＋ Create Video</button>
-</section>
+  </section>
 
 </main>
 
-<nav>
-  <div class="nav-item active" id="homeNav" onclick="showPage('home')">
-    🏠<span>Home</span>
+<!-- SEARCH -->
+<section class="searchPage" id="searchPage">
+  <h2>🔍 खोजें</h2>
+  <input
+    class="searchInput"
+    id="searchInput"
+    placeholder="यूज़र, वीडियो या #हैशटैग खोजें..."
+    oninput="searchUsers()"
+  >
+  <div id="searchResults">
+    <div class="searchResult">🔥 Trending videos</div>
+    <div class="searchResult">🎵 Music</div>
+    <div class="searchResult">😂 Comedy</div>
+    <div class="searchResult">❤️ Love</div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="profilePage" id="profilePage">
+
+  <div class="profileHead">
+    <div class="avatar">NJ</div>
+    <div class="profileName">@nawabjani72</div>
+    <p style="color:#aaa;margin-top:6px;">Nawab Jani 72 🚀</p>
   </div>
 
-  <div class="nav-item" id="searchNav" onclick="showPage('search')">
-    🔍<span>Search</span>
+  <div class="stats">
+    <div><b id="videoCount">0</b>वीडियो</div>
+    <div><b>0</b>फॉलोअर्स</div>
+    <div><b>0</b>फॉलोइंग</div>
   </div>
 
-  <div class="nav-item" onclick="openUpload()">
-    ➕<span>Create</span>
+  <button class="mainBtn" onclick="openStory()">
+    📖 Story लगाएँ
+  </button>
+
+  <h3 style="margin-top:25px;">मेरी Stories</h3>
+
+  <div class="storyRow">
+    <div class="story" onclick="openStory()">+</div>
   </div>
 
-  <div class="nav-item" id="profileNav" onclick="showPage('profile')">
-    👤<span>Profile</span>
-  </div>
+</section>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom">
+
+  <button class="navBtn active" onclick="home()">
+    <span class="navIcon">🏠</span>
+    <span>घर</span>
+  </button>
+
+  <button class="navBtn" onclick="searchPage()">
+    <span class="navIcon">🔍</span>
+    <span>खोज</span>
+  </button>
+
+  <button class="navBtn" onclick="openCreate()">
+    <span class="navIcon createIcon">+</span>
+    <span>बनाएँ</span>
+  </button>
+
+  <button class="navBtn" onclick="profilePage()">
+    <span class="navIcon">👤</span>
+    <span>प्रोफ़ाइल</span>
+  </button>
+
 </nav>
 
-</div>
+<!-- CREATE MODAL -->
+<div class="modal" id="createModal">
 
-<!-- UPLOAD MODAL -->
-<div id="uploadModal" class="modal">
-  <div class="modal-box">
+  <div class="sheet">
 
-    <span class="close" onclick="closeUpload()">×</span>
-    <div class="modal-title">Create New Reel 🎬</div>
+    <button class="close" onclick="closeModal('createModal')">×</button>
 
-    <label class="upload-label" for="videoInput">
-      🎥<br><br>
-      <b>Video select karein</b><br>
-      <small>Phone se short video choose karein</small>
-    </label>
+    <h2>➕ नया वीडियो</h2>
 
-    <input id="videoInput" type="file" accept="video/*">
+    <div class="uploadBox">
+      <div style="font-size:45px;">🎥</div>
+      <b>वीडियो चुनें</b>
+      <p style="color:#aaa;margin-top:7px;">
+        MP4 / WebM वीडियो
+      </p>
 
-    <input id="captionInput"
-           type="text"
-           maxlength="100"
-           placeholder="Caption likhiye...">
-
-    <button onclick="publishVideo()">Publish Reel 🚀</button>
-
-  </div>
-</div>
-
-<!-- COMMENT MODAL -->
-<div id="commentModal" class="modal">
-  <div class="modal-box">
-
-    <span class="close" onclick="closeComments()">×</span>
-    <div class="modal-title">Comments 💬</div>
-
-    <div id="commentsList">
-      <div class="empty">Abhi koi comment nahi hai.</div>
+      <input
+        type="file"
+        id="videoFile"
+        accept="video/*"
+        onchange="previewVideo()"
+      >
     </div>
 
-    <textarea id="commentInput"
-              placeholder="Comment likhiye..."></textarea>
+    <video
+      id="preview"
+      class="storyPreview"
+      controls
+      style="display:none;"
+    ></video>
 
-    <button onclick="addComment()">Comment Post Karein</button>
+    <input
+      class="field"
+      id="captionInput"
+      placeholder="कैप्शन लिखें..."
+    >
+
+    <input
+      class="field"
+      id="locationInput"
+      placeholder="📍 लोकेशन"
+    >
+
+    <input
+      class="field"
+      id="hashtagsInput"
+      placeholder="#hashtags"
+    >
+
+    <h3 style="margin-top:15px;">🎨 Filter</h3>
+
+    <div class="filters">
+
+      <button class="filter selected" onclick="chooseFilter(this,'none')">
+        Normal
+      </button>
+
+      <button class="filter" onclick="chooseFilter(this,'grayscale(1)')">
+        B&W
+      </button>
+
+      <button class="filter" onclick="chooseFilter(this,'sepia(0.8)')">
+        Vintage
+      </button>
+
+      <button class="filter" onclick="chooseFilter(this,'contrast(1.4) saturate(1.4)')">
+        Vivid
+      </button>
+
+      <button class="filter" onclick="chooseFilter(this,'brightness(1.25)')">
+        Bright
+      </button>
+
+      <button class="filter" onclick="chooseFilter(this,'saturate(2)')">
+        Color
+      </button>
+
+    </div>
+
+    <button class="mainBtn" onclick="publishVideo()">
+      🚀 वीडियो पोस्ट करें
+    </button>
 
   </div>
 </div>
 
-<div id="toast" class="toast"></div>
+<!-- COMMENTS MODAL -->
+<div class="modal" id="commentModal">
+
+  <div class="sheet">
+
+    <button class="close" onclick="closeModal('commentModal')">×</button>
+
+    <h2>💬 Comments</h2>
+
+    <div class="comments" id="comments">
+      <div class="comment">
+        <b>@nawabjani72</b> Welcome to NJ72 ❤️
+      </div>
+    </div>
+
+    <input
+      class="field"
+      id="commentInput"
+      placeholder="Comment लिखें..."
+    >
+
+    <button class="mainBtn" onclick="addComment()">
+      Comment करें
+    </button>
+
+  </div>
+</div>
+
+<!-- STORY MODAL -->
+<div class="modal" id="storyModal">
+
+  <div class="sheet">
+
+    <button class="close" onclick="closeModal('storyModal')">×</button>
+
+    <h2>📖 नई Story</h2>
+
+    <div class="uploadBox">
+
+      <div style="font-size:45px;">📸</div>
+
+      <b>Photo / Video चुनें</b>
+
+      <input
+        type="file"
+        id="storyFile"
+        accept="image/*,video/*"
+        onchange="previewStory()"
+      >
+
+    </div>
+
+    <div id="storyPreviewBox"></div>
+
+    <input
+      class="field"
+      id="storyText"
+      placeholder="Story पर कुछ लिखें..."
+    >
+
+    <button class="mainBtn" onclick="publishStory()">
+      📖 Story लगाएँ
+    </button>
+
+  </div>
+</div>
+
+</div>
 
 <script>
 
-let liked = false;
-let likes = 0;
-let comments = [];
+/* =========================
+   NJ72 APPLICATION
+========================= */
 
-function toast(message){
-  const t=document.getElementById("toast");
-  t.innerText=message;
-  t.style.display="block";
+let selectedFilter = "none";
+let currentVideo = null;
 
-  setTimeout(()=>{
-    t.style.display="none";
-  },1800);
+/* STORAGE */
+let videos = JSON.parse(localStorage.getItem("nj72Videos") || "[]");
+let stories = JSON.parse(localStorage.getItem("nj72Stories") || "[]");
+
+/* =========================
+   HOME
+========================= */
+
+function home(){
+
+  document.getElementById("searchPage").classList.remove("show");
+  document.getElementById("profilePage").classList.remove("show");
+
+  document.querySelector(".feed").style.display = "block";
+
+  setActive(0);
 }
 
-function likeDemo(){
+/* =========================
+   SEARCH
+========================= */
 
-  liked=!liked;
+function searchPage(){
 
-  if(liked){
-    likes++;
-    document.getElementById("likeIcon").innerText="💖";
-  }else{
-    likes--;
-    document.getElementById("likeIcon").innerText="❤️";
-  }
+  document.querySelector(".feed").style.display = "none";
+  document.getElementById("profilePage").classList.remove("show");
 
-  document.getElementById("likeCount").innerText=likes;
+  document.getElementById("searchPage").classList.add("show");
+
+  setActive(1);
 }
 
-function openUpload(){
-  document.getElementById("uploadModal").style.display="flex";
-}
+function searchUsers(){
 
-function closeUpload(){
-  document.getElementById("uploadModal").style.display="none";
-}
+  const text =
+    document.getElementById("searchInput").value.toLowerCase();
 
-function openComments(){
-  document.getElementById("commentModal").style.display="flex";
-  renderComments();
-}
-
-function closeComments(){
-  document.getElementById("commentModal").style.display="none";
-}
-
-function addComment(){
-
-  const input=document.getElementById("commentInput");
-  const text=input.value.trim();
+  const box =
+    document.getElementById("searchResults");
 
   if(!text){
-    toast("Comment likhiye 🙂");
+
+    box.innerHTML = `
+      <div class="searchResult">🔥 Trending videos</div>
+      <div class="searchResult">🎵 Music</div>
+      <div class="searchResult">😂 Comedy</div>
+      <div class="searchResult">❤️ Love</div>
+    `;
+
     return;
   }
 
-  comments.push(text);
-  input.value="";
+  box.innerHTML = `
+    <div class="searchResult">
+      👤 @nawabjani72
+    </div>
 
-  renderComments();
+    <div class="searchResult">
+      🔎 "${text}" के videos
+    </div>
 
-  document.getElementById("commentCount").innerText=comments.length;
+    <div class="searchResult">
+      #${text}
+    </div>
+  `;
 }
 
-function renderComments(){
+/* =========================
+   PROFILE
+========================= */
 
-  const box=document.getElementById("commentsList");
+function profilePage(){
 
-  if(comments.length===0){
-    box.innerHTML='<div class="empty">Abhi koi comment nahi hai.</div>';
-    return;
-  }
+  document.querySelector(".feed").style.display = "none";
+  document.getElementById("searchPage").classList.remove("show");
 
-  box.innerHTML="";
+  document.getElementById("profilePage").classList.add("show");
 
-  comments.forEach((comment,index)=>{
+  document.getElementById("videoCount").innerText = videos.length;
 
-    const div=document.createElement("div");
-    div.className="comment";
+  loadStories();
 
-    div.innerHTML=
-      "<b>@nawabjani72</b>"+
-      "<p>"+escapeHTML(comment)+"</p>";
+  setActive(3);
+}
 
-    box.appendChild(div);
+/* =========================
+   NAV ACTIVE
+========================= */
+
+function setActive(index){
+
+  document.querySelectorAll(".navBtn").forEach((b,i)=>{
+
+    b.classList.toggle("active",i === index);
 
   });
+
 }
 
-function escapeHTML(text){
-  return text
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+/* =========================
+   CREATE
+========================= */
+
+function openCreate(){
+
+  document.getElementById("createModal")
+    .classList.add("show");
+
 }
 
-function shareApp(){
+function closeModal(id){
 
-  const url=window.location.href;
+  document.getElementById(id)
+    .classList.remove("show");
 
-  if(navigator.share){
-
-    navigator.share({
-      title:"NJ72",
-      text:"Nawab Jani 72 - Short Video App",
-      url:url
-    }).catch(()=>{});
-
-  }else{
-
-    navigator.clipboard.writeText(url);
-
-    toast("App link copy ho gaya ✅");
-
-  }
 }
+
+/* =========================
+   VIDEO PREVIEW
+========================= */
+
+function previewVideo(){
+
+  const file =
+    document.getElementById("videoFile").files[0];
+
+  if(!file) return;
+
+  const url = URL.createObjectURL(file);
+
+  const preview =
+    document.getElementById("preview");
+
+  preview.src = url;
+  preview.style.display = "block";
+
+}
+
+/* =========================
+   FILTER
+========================= */
+
+function chooseFilter(button,filter){
+
+  selectedFilter = filter;
+
+  document.querySelectorAll(".filter")
+    .forEach(b=>b.classList.remove("selected"));
+
+  button.classList.add("selected");
+
+  document.getElementById("preview")
+    .style.filter = filter;
+
+}
+
+/* =========================
+   PUBLISH VIDEO
+========================= */
 
 function publishVideo(){
 
-  const input=document.getElementById("videoInput");
-  const caption=document.getElementById("captionInput");
+  const file =
+    document.getElementById("videoFile").files[0];
 
-  if(!input.files || !input.files[0]){
+  if(!file){
 
-    toast("Pehle video select karein 🎥");
+    alert("पहले वीडियो चुनें 🎥");
+
     return;
+  }
+
+  const url =
+    URL.createObjectURL(file);
+
+  const videoData = {
+
+    id:Date.now(),
+
+    username:"@nawabjani72",
+
+    caption:
+      document.getElementById("captionInput").value ||
+      "मेरी NJ72 Reel 🚀",
+
+    location:
+      document.getElementById("locationInput").value,
+
+    hashtags:
+      document.getElementById("hashtagsInput").value,
+
+    url:url,
+
+    filter:selectedFilter,
+
+    likes:0,
+
+    comments:[]
+
+  };
+
+  /*
+    Browser session में video चलता रहेगा.
+    Large videos localStorage में रखना संभव नहीं,
+    इसलिए current browser session के लिए list में
+    object रखा जा रहा है.
+  */
+
+  videos.unshift(videoData);
+
+  try{
+
+    localStorage.setItem(
+      "nj72Videos",
+      JSON.stringify(videos)
+    );
+
+  }catch(e){
+
+    console.log("Storage limit reached");
 
   }
 
-  const file=input.files[0];
+  addVideoToFeed(videoData);
 
-  if(!file.type.startsWith("video/")){
+  closeModal("createModal");
 
-    toast("Sirf video select karein");
-    return;
+  document.getElementById("videoFile").value="";
+  document.getElementById("captionInput").value="";
+  document.getElementById("locationInput").value="";
+  document.getElementById("hashtagsInput").value="";
+  document.getElementById("preview").style.display="none";
 
-  }
+  alert("🎉 वीडियो NJ72 पर पोस्ट हो गया!");
 
-  const url=URL.createObjectURL(file);
+  home();
 
-  const reel=document.createElement("div");
+}
+
+/* =========================
+   ADD VIDEO
+========================= */
+
+function addVideoToFeed(data){
+
+  const reel =
+    document.createElement("section");
+
   reel.className="reel";
 
   reel.innerHTML=`
 
-    <video controls playsinline loop>
-      <source src="${url}" type="${file.type}">
-    </video>
+    <video
+      class="video"
+      src="${data.url}"
+      loop
+      playsinline
+      onclick="toggleVideo(this)"
+      style="filter:${data.filter}"
+    ></video>
+
+    <button
+      class="bigPlay"
+      onclick="toggleVideo(this.parentElement.querySelector('video'))"
+    >▶</button>
 
     <div class="actions">
 
-      <div class="action">
-        <div class="action-icon">❤️</div>
-        <div class="action-count">0</div>
+      <button
+        class="actionBtn like"
+        onclick="likeVideo(this)"
+      >
+        ❤️
+        <small>0</small>
+      </button>
+
+      <button
+        class="actionBtn"
+        onclick="openComments()"
+      >
+        💬
+        <small>0</small>
+      </button>
+
+      <button
+        class="actionBtn"
+        onclick="shareVideo()"
+      >
+        ↗️
+        <small>Share</small>
+      </button>
+
+    </div>
+
+    <div class="info">
+
+      <div class="location">
+        ${escapeHTML(data.location)}
       </div>
 
-      <div class="action">
-        <div class="action-icon">💬</div>
-        <div class="action-count">0</div>
+      <div class="username">
+        ${escapeHTML(data.username)}
       </div>
 
-      <div class="action" onclick="shareApp()">
-        <div class="action-icon">↗️</div>
-        <div class="action-count">Share</div>
+      <div class="caption">
+        ${escapeHTML(data.caption)}
+        <br>
+        ${escapeHTML(data.hashtags)}
       </div>
 
     </div>
 
-    <div class="caption">
-      <div class="user">@nawabjani72</div>
-      <div class="text">
-        ${escapeHTML(caption.value || "My new NJ72 reel 🚀")}
-      </div>
+    <div class="controls">
+
+      <button
+        class="controlBtn"
+        onclick="muteVideo(this)"
+      >
+        🔊
+      </button>
+
+      <button
+        class="controlBtn"
+        onclick="fullScreen(this)"
+      >
+        ⛶
+      </button>
+
     </div>
+
+    <div class="progress"></div>
   `;
 
-  document.getElementById("uploadedFeed").prepend(reel);
+  document
+    .getElementById("feed")
+    .prepend(reel);
 
-  document.getElementById("videoStat").innerText=
-    document.querySelectorAll("#uploadedFeed .reel").length;
-
-  input.value="";
-  caption.value="";
-
-  closeUpload();
-
-  showPage("home");
-
-  toast("Reel publish ho gayi 🚀");
+  setupVideo(reel);
 
 }
 
-function showPage(page){
+/* =========================
+   VIDEO SETUP
+========================= */
 
-  const home=document.getElementById("homePage");
-  const search=document.getElementById("searchPage");
-  const profile=document.getElementById("profilePage");
+function setupVideo(reel){
 
-  home.style.display="none";
-  search.style.display="none";
-  profile.style.display="none";
+  const video =
+    reel.querySelector(".video");
 
-  document.querySelectorAll(".nav-item")
-    .forEach(x=>x.classList.remove("active"));
+  const play =
+    reel.querySelector(".bigPlay");
 
-  if(page==="home"){
+  const progress =
+    reel.querySelector(".progress");
 
-    home.style.display="block";
-    document.getElementById("homeNav").classList.add("active");
+  video.addEventListener("timeupdate",()=>{
 
-  }
+    if(video.duration){
 
-  if(page==="search"){
-
-    search.style.display="block";
-    document.getElementById("searchNav").classList.add("active");
-
-  }
-
-  if(page==="profile"){
-
-    profile.style.display="block";
-    document.getElementById("profileNav").classList.add("active");
-
-  }
-
-  window.scrollTo(0,0);
-}
-
-function doSearch(){
-
-  const value=document
-    .getElementById("searchInput")
-    .value
-    .toLowerCase()
-    .trim();
-
-  const results=document.getElementById("searchResults");
-
-  if(!value){
-
-    results.innerHTML="Search karke dekhiye 🔎";
-    return;
-
-  }
-
-  if(
-    "nawabjani72".includes(value) ||
-    "nawab jani 72".includes(value) ||
-    "nj72".includes(value)
-  ){
-
-    results.innerHTML=`
-      <div style="
-        background:#202020;
-        padding:18px;
-        border-radius:15px;
-        text-align:left;
-      ">
-        <b style="font-size:18px">@nawabjani72</b>
-        <p style="color:#aaa;margin-top:7px">
-          Nawab Jani 72 • Short Videos
-        </p>
-      </div>
-    `;
-
-  }else{
-
-    results.innerHTML=
-      "Koi result nahi mila 😕";
-
-  }
-}
-
-document
-  .getElementById("videoInput")
-  .addEventListener("change",function(){
-
-    if(this.files[0]){
-
-      const mb=
-        (this.files[0].size/1024/1024).toFixed(1);
-
-      toast("Video select ho gayi • "+mb+" MB");
+      progress.style.width =
+        (video.currentTime / video.duration * 100)+"%";
 
     }
 
   });
+
+  video.addEventListener("play",()=>{
+
+    play.style.display="none";
+
+  });
+
+  video.addEventListener("pause",()=>{
+
+    play.style.display="flex";
+
+  });
+
+}
+
+/* =========================
+   TOGGLE VIDEO
+========================= */
+
+function toggleVideo(video){
+
+  if(video.paused){
+
+    document.querySelectorAll(".video").forEach(v=>{
+
+      if(v!==video) v.pause();
+
+    });
+
+    video.play();
+
+  }else{
+
+    video.pause();
+
+  }
+
+}
+
+/* =========================
+   DEMO PLAY
+========================= */
+
+function demoPlay(button){
+
+  button.style.display="none";
+
+}
+
+/* =========================
+   LIKE
+========================= */
+
+function likeVideo(button){
+
+  button.classList.toggle("active");
+
+  const small =
+    button.querySelector("small");
+
+  let count =
+    Number(small.innerText);
+
+  if(button.classList.contains("active")){
+
+    count++;
+
+  }else{
+
+    count--;
+
+  }
+
+  small.innerText=count;
+
+}
+
+/* =========================
+   COMMENTS
+========================= */
+
+function openComments(){
+
+  document
+    .getElementById("commentModal")
+    .classList.add("show");
+
+}
+
+function addComment(){
+
+  const input =
+    document.getElementById("commentInput");
+
+  const text =
+    input.value.trim();
+
+  if(!text) return;
+
+  const comment =
+    document.createElement("div");
+
+  comment.className="comment";
+
+  comment.innerHTML=`
+    <b>@nawabjani72</b>
+    ${escapeHTML(text)}
+  `;
+
+  document
+    .getElementById("comments")
+    .appendChild(comment);
+
+  input.value="";
+
+}
+
+/* =========================
+   SHARE
+========================= */
+
+function shareVideo(){
+
+  const text =
+    "NJ72 पर यह Reel देखें ❤️";
+
+  if(navigator.share){
+
+    navigator.share({
+
+      title:"NJ72",
+      text:text,
+      url:location.href
+
+    }).catch(()=>{});
+
+  }else{
+
+    navigator.clipboard
+      ?.writeText(location.href);
+
+    alert("🔗 Link copy हो गया!");
+
+  }
+
+}
+
+/* =========================
+   MUTE
+========================= */
+
+function muteVideo(button){
+
+  const video =
+    button.closest(".reel")
+      .querySelector("video");
+
+  video.muted =
+    !video.muted;
+
+  button.innerText =
+    video.muted ? "🔇" : "🔊";
+
+}
+
+/* =========================
+   FULLSCREEN
+========================= */
+
+function fullScreen(button){
+
+  const video =
+    button.closest(".reel")
+      .querySelector("video");
+
+  if(video.requestFullscreen){
+
+    video.requestFullscreen();
+
+  }
+
+}
+
+/* =========================
+   STORIES
+========================= */
+
+function openStory(){
+
+  document
+    .getElementById("storyModal")
+    .classList.add("show");
+
+}
+
+function previewStory(){
+
+  const file =
+    document.getElementById("storyFile").files[0];
+
+  if(!file) return;
+
+  const url =
+    URL.createObjectURL(file);
+
+  const box =
+    document.getElementById("storyPreviewBox");
+
+  if(file.type.startsWith("image/")){
+
+    box.innerHTML=`
+      <img
+        src="${url}"
+        class="storyPreview"
+      >
+    `;
+
+  }else{
+
+    box.innerHTML=`
+      <video
+        src="${url}"
+        class="storyPreview"
+        controls
+      ></video>
+    `;
+
+  }
+
+}
+
+function publishStory(){
+
+  const file =
+    document.getElementById("storyFile").files[0];
+
+  if(!file){
+
+    alert("पहले Photo या Video चुनें 📸");
+
+    return;
+
+  }
+
+  const story={
+
+    id:Date.now(),
+
+    url:URL.createObjectURL(file),
+
+    text:
+      document.getElementById("storyText").value
+
+  };
+
+  stories.unshift(story);
+
+  try{
+
+    localStorage.setItem(
+      "nj72Stories",
+      JSON.stringify(stories)
+    );
+
+  }catch(e){}
+
+  closeModal("storyModal");
+
+  document.getElementById("storyFile").value="";
+  document.getElementById("storyText").value="";
+
+  alert("📖 आपकी Story लग गई!");
+
+  loadStories();
+
+}
+
+/* =========================
+   LOAD STORIES
+========================= */
+
+function loadStories(){
+
+  const row =
+    document.querySelector(".storyRow");
+
+  if(!row) return;
+
+  row.innerHTML=`
+    <div class="story" onclick="openStory()">+</div>
+  `;
+
+  stories.forEach((story)=>{
+
+    const item =
+      document.createElement("div");
+
+    item.className="story";
+
+    item.innerText="📖";
+
+    item.onclick=()=>{
+
+      alert(
+        story.text ||
+        "NJ72 Story"
+      );
+
+    };
+
+    row.appendChild(item);
+
+  });
+
+}
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+/* =========================
+   LOAD EXISTING VIDEOS
+========================= */
+
+function loadVideos(){
+
+  /*
+    Browser session के दौरान जो videos
+    available हैं उन्हें feed में दिखाएँ.
+  */
+
+  videos
+    .slice()
+    .reverse()
+    .forEach(video=>{
+
+      addVideoToFeed(video);
+
+    });
+
+}
+
+/* =========================
+   CLOSE MODAL OUTSIDE
+========================= */
+
+document.querySelectorAll(".modal")
+  .forEach(modal=>{
+
+    modal.addEventListener("click",(e)=>{
+
+      if(e.target===modal){
+
+        modal.classList.remove("show");
+
+      }
+
+    });
+
+  });
+
+/* =========================
+   START
+========================= */
+
+loadStories();
 
 </script>
 
