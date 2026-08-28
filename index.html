@@ -1,29 +1,546 @@
-{
-  "project_info": {
-    "project_number": "685443749226",
-    "project_id": "nj72-39e55",
-    "storage_bucket": "nj72-39e55.firebasestorage.app"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:685443749226:android:2a594722edfff4e3be4113",
-        "android_client_info": {
-          "package_name": "com.nj72.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBjmLzKZYFEoFU6R8dDSSUyr_izjJq9k9I"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    }
-  ],
-  "configuration_version": "1"
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NJ Reels 72</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
 }
+.app{
+  height:100vh;
+  width:100%;
+  max-width:520px;
+  margin:auto;
+  position:relative;
+  background:#111;
+}
+header{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index:20;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 16px;
+  background:linear-gradient(#000b,transparent);
+}
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+.logo span{color:#ff2d55}
+.header-btn{
+  border:0;
+  background:#ffffff22;
+  color:#fff;
+  border-radius:20px;
+  padding:9px 14px;
+}
+.feed{
+  height:100vh;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+}
+.reel{
+  height:100vh;
+  position:relative;
+  scroll-snap-align:start;
+  background:linear-gradient(145deg,#222,#050505);
+}
+.reel video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.demo{
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:80px;
+  background:linear-gradient(135deg,#531,#111,#512);
+}
+.info{
+  position:absolute;
+  left:16px;
+  right:85px;
+  bottom:90px;
+  text-shadow:0 2px 6px #000;
+}
+.user{
+  font-weight:bold;
+  font-size:17px;
+  margin-bottom:10px;
+}
+.caption{
+  font-size:15px;
+  line-height:1.4;
+}
+.actions{
+  position:absolute;
+  right:12px;
+  bottom:100px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  align-items:center;
+}
+.action{
+  background:#0007;
+  border:0;
+  color:#fff;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  font-size:23px;
+}
+.count{
+  font-size:12px;
+  margin-top:-14px;
+}
+nav{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:30;
+  height:65px;
+  background:#000e;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+nav button{
+  background:none;
+  border:0;
+  color:#aaa;
+  font-size:12px;
+}
+nav button b{
+  display:block;
+  font-size:23px;
+  margin-bottom:2px;
+}
+nav button.active{color:#fff}
+
+.modal{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:50;
+  background:#000e;
+  padding:25px;
+  align-items:center;
+  justify-content:center;
+}
+.card{
+  width:100%;
+  max-width:400px;
+  background:#181818;
+  border-radius:20px;
+  padding:24px;
+}
+.card h2{margin-bottom:18px}
+.input{
+  width:100%;
+  padding:14px;
+  margin:7px 0;
+  border:1px solid #444;
+  background:#090909;
+  color:#fff;
+  border-radius:10px;
+}
+.primary{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  background:#ff2d55;
+  color:#fff;
+  font-weight:bold;
+  margin-top:10px;
+}
+.close{
+  float:right;
+  background:none;
+  color:#fff;
+  border:0;
+  font-size:25px;
+}
+.message{
+  margin-top:12px;
+  font-size:13px;
+  color:#ffb3c1;
+}
+.profile{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:40;
+  background:#101010;
+  padding:80px 20px 80px;
+  overflow:auto;
+}
+.avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#ff2d55;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:35px;
+  margin:auto;
+}
+.profile h2{text-align:center;margin:15px}
+.stats{
+  display:flex;
+  justify-content:space-around;
+  margin:25px 0;
+}
+.stat{text-align:center}
+.logout{
+  display:block;
+  margin:20px auto;
+  padding:12px 25px;
+  background:#333;
+  color:#fff;
+  border:0;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="logo">NJ <span>Reels 72</span></div>
+  <button class="header-btn" onclick="openLogin()">Login</button>
+</header>
+
+<main class="feed" id="feed">
+
+<section class="reel">
+  <div class="demo">NJ</div>
+
+  <div class="info">
+    <div class="user">@njreels72</div>
+    <div class="caption">
+      Welcome to NJ Reels 72 🚀<br>
+      Apna short video platform.
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="action" onclick="like(this)">♥</button>
+    <div class="count">0</div>
+
+    <button class="action" onclick="comment()">💬</button>
+    <div class="count">0</div>
+
+    <button class="action" onclick="shareReel()">↗</button>
+
+    <button class="action" onclick="alert('More options')">⋮</button>
+  </div>
+</section>
+
+<section class="reel">
+  <div class="demo">72</div>
+
+  <div class="info">
+    <div class="user">@njofficial</div>
+    <div class="caption">
+      NJ Reels 72 — Create • Watch • Share ❤️
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="action" onclick="like(this)">♥</button>
+    <div class="count">0</div>
+
+    <button class="action" onclick="comment()">💬</button>
+    <div class="count">0</div>
+
+    <button class="action" onclick="shareReel()">↗</button>
+
+    <button class="action" onclick="alert('More options')">⋮</button>
+  </div>
+</section>
+
+</main>
+
+<div class="profile" id="profile">
+  <div class="avatar">NJ</div>
+  <h2 id="profileName">NJ User</h2>
+
+  <div class="stats">
+    <div class="stat"><b>0</b><br>Reels</div>
+    <div class="stat"><b>0</b><br>Followers</div>
+    <div class="stat"><b>0</b><br>Following</div>
+  </div>
+
+  <button class="primary" onclick="alert('Upload feature next step')">
+    ＋ Create Reel
+  </button>
+
+  <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<nav>
+  <button class="active" onclick="home()">
+    <b>⌂</b>Home
+  </button>
+
+  <button onclick="searchApp()">
+    <b>⌕</b>Search
+  </button>
+
+  <button onclick="alert('Create Reel feature')">
+    <b>＋</b>Create
+  </button>
+
+  <button onclick="profile()">
+    <b>♡</b>Activity
+  </button>
+
+  <button onclick="profile()">
+    <b>◎</b>Profile
+  </button>
+</nav>
+
+<div class="modal" id="loginModal">
+  <div class="card">
+
+    <button class="close" onclick="closeLogin()">×</button>
+
+    <h2>NJ Reels 72</h2>
+
+    <input
+      class="input"
+      id="email"
+      type="email"
+      placeholder="Email"
+    >
+
+    <input
+      class="input"
+      id="password"
+      type="password"
+      placeholder="Password"
+    >
+
+    <button class="primary" onclick="login()">
+      Login
+    </button>
+
+    <button
+      class="primary"
+      onclick="signup()"
+      style="background:#333">
+      Create Account
+    </button>
+
+    <div class="message" id="message"></div>
+  </div>
+</div>
+
+</div>
+
+<script type="module">
+
+import {
+  auth
+} from "./firebase-config.js";
+
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
+window.openLogin = function(){
+  document.getElementById("loginModal").style.display="flex";
+};
+
+window.closeLogin = function(){
+  document.getElementById("loginModal").style.display="none";
+};
+
+function msg(text){
+  document.getElementById("message").innerText=text;
+}
+
+window.login = async function(){
+
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+
+  if(!email || !password){
+    msg("Email aur password bharo.");
+    return;
+  }
+
+  try{
+    await signInWithEmailAndPassword(auth,email,password);
+    msg("Login successful ✅");
+
+    setTimeout(()=>{
+      closeLogin();
+    },800);
+
+  }catch(error){
+    msg(error.message);
+  }
+};
+
+window.signup = async function(){
+
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+
+  if(!email || !password){
+    msg("Email aur password bharo.");
+    return;
+  }
+
+  if(password.length < 6){
+    msg("Password kam se kam 6 characters ka ho.");
+    return;
+  }
+
+  try{
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    msg("Account ban gaya ✅");
+
+    setTimeout(()=>{
+      closeLogin();
+    },800);
+
+  }catch(error){
+    msg(error.message);
+  }
+};
+
+window.logout = async function(){
+  await signOut(auth);
+  document.getElementById("profile").style.display="none";
+};
+
+onAuthStateChanged(auth,(user)=>{
+
+  const loginButton=document.querySelector(".header-btn");
+
+  if(user){
+    loginButton.innerText="Profile";
+    loginButton.onclick=profile;
+
+    document.getElementById("profileName").innerText =
+      user.email || "NJ User";
+  }else{
+    loginButton.innerText="Login";
+    loginButton.onclick=openLogin;
+  }
+
+});
+
+
+window.like = function(button){
+
+  const count=button.nextElementSibling;
+
+  if(button.dataset.liked==="yes"){
+    button.dataset.liked="no";
+    button.innerText="♥";
+    count.innerText=
+      Math.max(0,Number(count.innerText)-1);
+  }else{
+    button.dataset.liked="yes";
+    button.innerText="❤️";
+    count.innerText=
+      Number(count.innerText)+1;
+  }
+
+};
+
+
+window.comment = function(){
+
+  const text=prompt("Comment likho:");
+
+  if(text){
+    alert("Comment added: "+text);
+  }
+
+};
+
+
+window.shareReel = async function(){
+
+  if(navigator.share){
+
+    try{
+      await navigator.share({
+        title:"NJ Reels 72",
+        text:"NJ Reels 72 par ye reel dekho!"
+      });
+    }catch(e){}
+
+  }else{
+    alert("Share feature browser support ke saath chalega.");
+  }
+
+};
+
+
+window.profile = function(){
+
+  document.getElementById("profile").style.display="block";
+
+};
+
+
+window.home = function(){
+
+  document.getElementById("profile").style.display="none";
+
+  document.getElementById("feed").scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+};
+
+
+window.searchApp = function(){
+
+  const q=prompt("Kise search karna hai?");
+
+  if(q){
+    alert("Search: "+q);
+  }
+
+};
+
+</script>
+
+</body>
+</html>
